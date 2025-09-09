@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Manager</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96" />
+
+<link rel="shortcut icon" href="/icons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Video Manager" />
+<link rel="manifest" href="/icons/site.webmanifest" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <h1>📁 Video Manager (ohne Server)</h1>
+      <h2 id="currentSectionTitle">Gespeicherte Videos</h2>
+    </div>
+
+    <div class="app-content">
+      <div id="notes">
+        <div id="noteFieldsContainer"></div>
+        <button id="addNoteFieldBtn" class="floating-add-btn" title="Add new note field">+</button>
+      </div>
+      
+      <div class="file-list" id="fileList">
+        <input type="file"id="fileInput" accept="video/*"/>
+        <input type="text" placeholder="📝 Notiz" id="noteInput" />
+        <button class="liquid-glass" onclick="saveFile()">Video Hochladen</button>
+        <br><br><br>
+
+        <!-- Filter and Search Section -->
+        <div class="filters-section">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="searchInput">🔍 Suchen:</label>
+              <input type="text" id="searchInput" placeholder="Nach Name, Notiz oder Tag suchen..." oninput="listFiles()">
+            </div>
+
+            <div class="filter-group">
+              <label for="statusFilter">📊 Status:</label>
+              <select id="statusFilter" onchange="listFiles()">
+                <option value="all">Alle</option>
+                <option value="upcoming">Bevorstehend</option>
+                <option value="overdue">Überfällig</option>
+                <option value="published">Veröffentlicht</option>
+                <option value="no-date">Kein Datum</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="tagFilter">🏷️ Tag:</label>
+              <select id="tagFilter" onchange="listFiles()">
+                <option value="all">Alle Tags</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="dateFrom">📅 Von:</label>
+              <input type="date" id="dateFrom" onchange="listFiles()">
+            </div>
+
+            <div class="filter-group">
+              <label for="dateTo">📅 Bis:</label>
+              <input type="date" id="dateTo" onchange="listFiles()">
+            </div>
+
+            <div class="filter-group">
+              <button onclick="clearFilters()" class="clear-filters-btn">🧹 Filter löschen</button>
+            </div>
+          </div>
+
+          <div class="filter-stats">
+            <span id="filterStats">Videos: 0 | Gefiltert: 0</span>
+          </div>
+        </div>
+
+        <div id="files"></div>
+      </div>
+
+      <div class="calendar-container">
+        <div id="calendar" class="calendar"></div>
+      </div>
+    </div>
+
+    <div id="toggleContainer" class="floating-toggle">
+      <button id="toggleVideos" class="toggle-btn active liquid-glass">Video Liste</button>
+      <button id="toggleNotes" class="toggle-btn liquid-glass">Notizen</button>
+      <button id="toggleCalendar" class="toggle-btn liquid-glass">Kalender</button>
+    </div>
+
+    <!-- Backup/Export Section -->
+    <div class="backup-section">
+      <button id="exportBtn" class="backup-btn liquid-glass" title="Daten exportieren">📤 Export</button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+      <input type="file" id="importInput" accept=".zip" style="display: none;">
+      <button id="importBtn" class="backup-btn liquid-glass" title="Daten importieren">📥 Import</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
